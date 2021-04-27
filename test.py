@@ -24,44 +24,27 @@ for line in mytext.split('\n'):
         list_of_repos.append(splittext)
 
 print(list_of_repos) 
-
+# ------------------------------------GITHUB------------------------------
 mytoken = str(os.environ['GITHUBTOKEN'])
 g = Github(mytoken)
 
 for list in list_of_repos:
     repo = list[0]
-    print(repo)
     repo_data = g.get_repo(repo)
     contents = repo_data.get_contents("")
+    dfp = DockerfileParser()
 
     while contents:
         file_content = contents.pop(0)
         if file_content.type == "dir":
             contents.extend(repo_data.get_contents(file_content.path))
         else:
-            print(file_content)
-
-
-
-
-
-
-
-
-contents = repo.get_contents("")
-
-while contents:
-    file_content = contents.pop(0)
-    if file_content.type == "dir":
-        contents.extend(repo.get_contents(file_content.path))
-    else:
-        print(file_content)
-
-
-
-
-if __name__ == "__main__":
-    if not mytoken:
-        print('\033[31m' + ' * Error: Github token missing. Exiting.')
-        print('\033[39m')
-        quit() 
+            if file_content.name == 'Dockerfile':
+                dfp.content = str(file_content.decoded_content, 'utf-8')
+                container_repo = json.loads(dfp.json)
+                
+                for dic in container_repo:
+                    if 'FROM' in dic:
+                        #Cleaning string. need only 1st col
+                        string_list = dic['FROM'].split(' ')
+                        print(string_list[0])
