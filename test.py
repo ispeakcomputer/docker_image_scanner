@@ -12,27 +12,32 @@ mytext = r.text
 
 list_of_repos=[]
 for line in mytext.split('\n'):
-    # ['https://github.com/container-images.git', 'c260deaf135fc0efaab365ea234a5b86b3ead404']
-    # converted now to this:
-    #['app-sre/qontract-reconcile', '30af65af14a2dce962df923446afff24dd8f123e']
+   
+    repo_info={}
+
     text  = line
     splittext = text.split(' ')
+    
+    #repo_info['sha'] = splittext[1]
+    repo_info['url'] = splittext[0]
     # Strip github url and file extension from 0 index
-    splittext[0] = splittext[0].replace('https://github.com/','')
-    splittext[0] = splittext[0].replace('.git','')
-    # remove dead line 
+    parsed_string = splittext[0].replace('https://github.com/','')
+    repo_info['user_repo'] = parsed_string.replace('.git','')
+    
+    
+    # remove dead line
     if splittext[0] == '':
         pass
     else:
-        list_of_repos.append(splittext)
-
+        list_of_repos.append(repo_info)
 print(list_of_repos) 
+
 # ------------------------------------GITHUB------------------------------
 mytoken = str(os.environ['GITHUBTOKEN'])
 g = Github(mytoken)
 
-for list in list_of_repos:
-    repo = list[0]
+for dic in list_of_repos:
+    repo = dic['user_repo']
     repo_data = g.get_repo(repo)
     contents = repo_data.get_contents("")
     dfp = DockerfileParser()
