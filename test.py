@@ -1,6 +1,9 @@
 import requests
 from github import Github
 import os
+import json
+from dockerfile_parse import DockerfileParser
+
 
 source="https://gist.githubusercontent.com/jmelis/c60e61a893248244dc4fa12b946585c4/raw/25d39f67f2405330a6314cad64fac423a171162c/sources.txt"
 
@@ -14,7 +17,7 @@ for line in mytext.split('\n'):
     #['app-sre/qontract-reconcile', '30af65af14a2dce962df923446afff24dd8f123e']
     text  = line
     splittext = text.split(' ')
-    # Strip github url and file extension
+    # Strip github url and file extension from 0 index
     splittext[0] = splittext[0].replace('https://github.com/','')
     splittext[0] = splittext[0].replace('.git','')
     # remove dead line 
