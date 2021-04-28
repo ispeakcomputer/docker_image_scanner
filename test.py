@@ -3,7 +3,7 @@ from github import Github
 import os
 import json
 from dockerfile_parse import DockerfileParser
-import pprint
+from pprint import pprint
 
 source="https://gist.githubusercontent.com/jmelis/c60e61a893248244dc4fa12b946585c4/raw/25d39f67f2405330a6314cad64fac423a171162c/sources.txt"
 mytoken = str(os.environ['GITHUBTOKEN'])
@@ -80,6 +80,22 @@ class Dockerchecker:
                               
                         dic['file_w_image'].append(file_images)
         return list_of_repos
+    def structure_json(self,input):
+        container_data={}
+        data={}
+        for url in input:
+            data[url['combined']]={}
+            #print(url)
+            for file in url['file_w_image']:
+                
+                data[url['combined']][file['Dockerfile']] = []
+                data[url['combined']][file['Dockerfile']].extend(file['images'])
+        container_data['data']={}
+        container_data['data'].update(data)
+        pprint(container_data)
+            #for file in url['file_w_image']:
+            #    print(inner_data[file['Dockerfile']]) 
+
 if __name__ == "__main__":
     if not mytoken:
         print('\033[31m' + ' * Error: Bitly API token missing. Exiting.')
@@ -93,6 +109,7 @@ if __name__ == "__main__":
         dict_of_repos_data = checker.clean_and_package(text)
         repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
         completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha)
-        pprint.pprint(completed_list, indent=6)
+        checker.structure_json(completed_list)
+        #pprint.pprint(completed_list, indent=6)
 
 
