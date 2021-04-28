@@ -81,12 +81,18 @@ class Dockerchecker:
                         dic['file_w_image'].append(file_images)
         return list_of_repos
 if __name__ == "__main__":
-    checker = Dockerchecker()
-    data = {}
-    text = checker.grab_txt_file(source)
-    dict_of_repos_data = checker.clean_and_package(text)
-    repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
-    completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha)
-    pprint.pprint(completed_list, indent=6)
+    if not mytoken:
+        print('\033[31m' + ' * Error: Bitly API token missing. Exiting.')
+        print('\033[39m')
+        quit() 
+    else:
+    
+        checker = Dockerchecker()
+        data = {}
+        text = checker.grab_txt_file(source)
+        dict_of_repos_data = checker.clean_and_package(text)
+        repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
+        completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha)
+        pprint.pprint(completed_list, indent=6)
 
 
