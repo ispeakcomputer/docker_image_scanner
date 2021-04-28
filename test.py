@@ -5,8 +5,6 @@ import json
 from dockerfile_parse import DockerfileParser
 from pprint import pprint
 
-source="https://gist.githubusercontent.com/jmelis/c60e61a893248244dc4fa12b946585c4/raw/25d39f67f2405330a6314cad64fac423a171162c/sources.txt"
-mytoken = str(os.environ['GITHUBTOKEN'])
 
 class Dockerchecker:
     def grab_txt_file(self, url):
@@ -97,14 +95,18 @@ class Dockerchecker:
             #    print(inner_data[file['Dockerfile']]) 
 
 if __name__ == "__main__":
-    if not mytoken:
-        print('\033[31m' + ' * Error: Bitly API token missing. Exiting.')
+   
+    if 'GITHUBTOKEN' and 'REPOSITORY_LIST_URL' not in os.environ:
+        print('\033[31m' + ' * ERROR: Github API token and/or source url is missing. Exiting.')
         print('\033[39m')
         quit() 
-    else:
-    
+        
+    else:        
+        mytoken = str(os.environ['GITHUBTOKEN'])
+        source = str(os.environ['REPOSITORY_LIST_URL'])
         checker = Dockerchecker()
         data = {}
+        
         text = checker.grab_txt_file(source)
         dict_of_repos_data = checker.clean_and_package(text)
         repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
