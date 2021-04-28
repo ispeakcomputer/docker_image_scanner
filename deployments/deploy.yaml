@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: pi
+  name: scanner
 spec:
   template:
     spec:
       containers:
-      - name: pi
-        image: bash
-        command: ["sleep","1600"]
+      - name: scanner
+        image: ispeakcomputer/scanner:latest
+        command: ["python3","test.py"]
         env:
         - name: GITHUBTOKEN
           valueFrom:
