@@ -90,7 +90,7 @@ class Dockerchecker:
                 data[url['combined']][file['Dockerfile']].extend(file['images'])
         container_data['data']={}
         container_data['data'].update(data)
-        pprint(container_data)
+        return container_data
             #for file in url['file_w_image']:
             #    print(inner_data[file['Dockerfile']]) 
 
@@ -111,7 +111,8 @@ if __name__ == "__main__":
         dict_of_repos_data = checker.clean_and_package(text)
         repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
         completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha)
-        checker.structure_json(completed_list)
+        structured_dict = checker.structure_json(completed_list)
+        pprint(structured_dict, indent=1)
         #pprint.pprint(completed_list, indent=6)
 
 
