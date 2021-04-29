@@ -51,9 +51,10 @@ has a exception handling built in.
 1. Check for Github Token and Url or exit while alerting user
 2. Grab our URL endpoint data
 3. Start a main dict for adding user/repo data striped from url, url, and sha while removing dead lines from input
-4. Combine url and sha into a single string with : delimiter and add to main dict. A requirement for output.
-5. Parse our repos Dockerfiles then extract its path as well as images from 'FROM' lines then add both to main dictionary
-6. Structure everything into the required data format from existing dictionary.
+4. Check that the commit SHA is found within the repo to verify it
+5. Combine url and sha into a single string with : delimiter and add to main dict. A requirement for output.
+6. Parse our repos Dockerfiles then extract its path as well as images from 'FROM' lines then add both to main dictionary
+7. Structure everything into the required data format from existing dictionary.
 
 
 
