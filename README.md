@@ -43,8 +43,8 @@ The output is a url:sha key nesting the Dockerfile path and a list of the images
 ```
 ### ✨ Design ✨
 
-The program is written in Python3 using object oriented design. It doesn't start without the required url/token and
-has a exception handling built in.
+The program is written in Python3 using object oriented design. It doesn't start without the required url/token,
+has a exception handling built in, and verifies repos against commit SHAs
 
 ***The program follows these steps***
 
