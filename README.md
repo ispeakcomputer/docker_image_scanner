@@ -25,10 +25,12 @@ Dockerfile Source Scanner is a tool that given a list of repositories, it identi
 
 ### Exmaple Input
 
-The source file contains a repo url a space and the a SHA
+The source file contains a repo url, a space, and the a SHA per line
 
-```https://github.com/app-sre/qontract-reconcile.git 30af65af14a2dce962df923446afff24dd8f123e
-https://github.com/app-sre/container-images.git c260deaf135fc0efaab365ea234a5b86b3ead404```
+```
+https://github.com/app-sre/qontract-reconcile.git 30af65af14a2dce962df923446afff24dd8f123e
+https://github.com/app-sre/container-images.git c260deaf135fc0efaab365ea234a5b86b3ead404
+```
 
 ### Example Output
 
