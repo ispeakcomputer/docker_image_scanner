@@ -23,7 +23,7 @@ Dockerfile Source Scanner is a tool that given a list of repositories, it identi
 7. Run ```pods=$(kubectl get pods --selector=job-name=scanner --output=jsonpath='{.items[*].metadata.name}');echo $pod``` for finding your jobs pod. 
 8. Once you get your pod check its output with ```kubectl logs <pod>```
 
-### Exmaple Input
+### Example Input
 
 The source text url contains a repo url, a space, and the a SHA per line
 
