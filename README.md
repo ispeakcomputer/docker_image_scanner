@@ -43,7 +43,7 @@ The output is a url:sha key nesting the Dockerfile path and a list of the images
 ```
 ### Design
 
-The program is written in Python3 using object originiated design. 
+The program is written in Python3 using object oriented design. 
 
 ***The program follows these steps***
 
