@@ -36,11 +36,21 @@ class Dockerchecker:
                     pass
                 else:
                     list_of_repos.append(repo_info)
-    
             return list_of_repos
         except Exception as e: 
             print('Check your source text file formatting and try again')
             print(e)
+    
+    def verify_sha(self, mytoken, list_of_repos):
+        g = Github(mytoken)
+        try:
+            for dic in list_of_repos:#for each repo
+                repo = dic['user_repo']
+                repo_data = g.get_repo(repo)
+                commit = repo_data.get_commit(sha=dic['sha']) #d
+            return True    
+        except GithubException as e:
+                return False
 
     def url_sha_combiner(self, dict_of_repos):
         try:
@@ -53,6 +63,7 @@ class Dockerchecker:
         except Exception as e: 
             print('Check your text file formatting')
             print(e)
+    
 
     def parse_docker(self, mytoken, list_of_repos):
         try:
@@ -63,6 +74,7 @@ class Dockerchecker:
                 repo = dic['user_repo']
                 dic['file_w_image']=[]
                 repo_data = g.get_repo(repo)
+               # commit = repo.get_commit(sha=dic['sha']) #doesn't return True/False. Must check for failure
                 contents = repo_data.get_contents("")
                 dfp = DockerfileParser()
     
@@ -120,9 +132,13 @@ if __name__ == "__main__":
         
         text = checker.grab_txt_file(source) #Grab our endpoint data
         dict_of_repos_data = checker.clean_and_package(text) #Clean dead lines, start a dict for adding user/repo data and removing dead lines
-        repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data) #combine url and sha and add to main dict
-        completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha) #parse our repo for Dockerfiles then extract FROM line and 1ast position
-        structured_dict = checker.structure_json(completed_list) #Structure everything into the required data format
-        print(structured_dict)
-
-
+        verified = checker.verify_sha(mytoken, dict_of_repos_data)
+        if verified:
+            repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data) #combine url and sha and add to main dict
+            completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha) #parse our repo for Dockerfiles then extract FROM line and 1ast position
+            structured_dict = checker.structure_json(completed_list) #Structure everything into the required data format
+            print(structured_dict)
+        else:
+            print('\033[31m' + ' * ERROR: Cannot Verify SHA within repo. Exiting.')
+            print('\033[39m')
+            quit() 
