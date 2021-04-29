@@ -23,7 +23,16 @@ Dockerfile Source Scanner is a tool that given a list of repositories, it identi
 7. Run ```pods=$(kubectl get pods --selector=job-name=scanner --output=jsonpath='{.items[*].metadata.name}');echo $pod``` for finding your jobs pod. 
 8. Once you get your pod check its output with ```kubectl logs <pod>```
 
+### Exmaple Input
+
+The source file contains a repo url a space and the a SHA
+
+```https://github.com/app-sre/qontract-reconcile.git 30af65af14a2dce962df923446afff24dd8f123e
+https://github.com/app-sre/container-images.git c260deaf135fc0efaab365ea234a5b86b3ead404```
+
 ### Example Output
+
+The output is a url:sha key nesting the Dockerfile path and a list of the images contained inside the Dockerfile
 
 ```{'data': 
    {'https://github.com/app-sre/qontract-reconcile.git:30af65af14a2dce962df923446afff24dd8f123e': {'dockerfiles/Dockerfile': ['quay.io/app-sre/qontract-reconcile-base:0.3.1']}, 
