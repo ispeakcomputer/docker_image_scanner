@@ -1,1 +1,13 @@
 start.sh
+*.swo
+*.swl
+*.swp
+*.swn
+.env*
+venv/
+*.tar
+*.cert
+*.key
+.git/
+deployments/
+secret.yaml
