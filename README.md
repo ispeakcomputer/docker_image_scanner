@@ -41,4 +41,18 @@ The output is a url:sha key nesting the Dockerfile path and a list of the images
    {'https://github.com/app-sre/qontract-reconcile.git:30af65af14a2dce962df923446afff24dd8f123e': {'dockerfiles/Dockerfile': ['quay.io/app-sre/qontract-reconcile-base:0.3.1']}, 
     'https://github.com/app-sre/container-images.git:c260deaf135fc0efaab365ea234a5b86b3ead404': {'jiralert/Dockerfile': ['registry.access.redhat.com/ubi8/go-toolset:latest', 'registry.access.redhat.com/ubi8-minimal:8.2'], 'qontract-reconcile-base/Dockerfile': ['registry.access.redhat.com/ubi8/ubi:8.2', 'registry.access.redhat.com/ubi8/ubi:8.2']}}}
 ```
+### Design
+
+The program is written in Python3 using object originiated design. 
+
+***The program follows these steps***
+
+1. Check for Github Token and Url or exit while alerting user
+2. Grab our URL endpoint data
+3. Start a main dict for adding user/repo data striped from url, url, and sha while removing dead lines from input
+4. Combine url and sha into a single string with : delimiter and add to main dict. A requirement for output.
+5. Parse our repos Dockerfiles then extract its path as well as images from 'FROM' lines then add both to main dictionary
+6. Structure everything into the required data format from existing dictionary.
+
+
 
