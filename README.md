@@ -36,7 +36,9 @@ https://github.com/app-sre/container-images.git c260deaf135fc0efaab365ea234a5b86
 
 The output is a url:sha key nesting the Dockerfile path and a list of the images contained inside the Dockerfile
 
-```{'data': 
+```
+{'data': 
    {'https://github.com/app-sre/qontract-reconcile.git:30af65af14a2dce962df923446afff24dd8f123e': {'dockerfiles/Dockerfile': ['quay.io/app-sre/qontract-reconcile-base:0.3.1']}, 
-    'https://github.com/app-sre/container-images.git:c260deaf135fc0efaab365ea234a5b86b3ead404': {'jiralert/Dockerfile': ['registry.access.redhat.com/ubi8/go-toolset:latest', 'registry.access.redhat.com/ubi8-minimal:8.2'], 'qontract-reconcile-base/Dockerfile': ['registry.access.redhat.com/ubi8/ubi:8.2', 'registry.access.redhat.com/ubi8/ubi:8.2']}}}```
+    'https://github.com/app-sre/container-images.git:c260deaf135fc0efaab365ea234a5b86b3ead404': {'jiralert/Dockerfile': ['registry.access.redhat.com/ubi8/go-toolset:latest', 'registry.access.redhat.com/ubi8-minimal:8.2'], 'qontract-reconcile-base/Dockerfile': ['registry.access.redhat.com/ubi8/ubi:8.2', 'registry.access.redhat.com/ubi8/ubi:8.2']}}}
+```
 
