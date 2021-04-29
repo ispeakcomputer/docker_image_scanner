@@ -5,14 +5,14 @@ A part of our compliance requirements, we want to make sure that we are building
 Dockerfile Source Scanner is a tool that given a list of repositories, it identifies all the Dockerfile files inside each repository,
  extracts the image names from the FROM statement, and returns a json with the aggregated information for all the repositories.
 
-### Quick Launch Locally 
+### Quick Launch
 1. Pull down the Docker Image ```docker pull ispeakcomputer/scanner:latest```
 2. Now lets run the image. Here you will need a [Github token](https://github.com/settings/tokens) with read permissions and the repository text file list source url. 
    The text file must have the repo url a space and a SHA on each line. I have included a url to test with below. Just create a Github token and run with this command.
    
    ```sudo docker run --env GITHUBTOKEN='<Your Token Here>' --env REPOSITORY_LIST_URL='https://gist.githubusercontent.com/jmelis/c60e61a893248244dc4fa12b946585c4/raw/25d39f67f2405330a6314cad64fac423a171162c/sources.txt' ispeakcomputer/scanner ```
 
-### Bonus Points - Deploy As Kubernetes Job
+### Deploy As Kubernetes Job
 1. Clone this repo with  ```git clone git@github.com:ispeakcomputer/docker_image_scanner.git```
 2. Move into the deployment repo by running ```cd docker_image_scanner/deployment ```
 3. You will need a [Github token](https://github.com/settings/tokens) with read permissions
@@ -43,7 +43,8 @@ The output is a url:sha key nesting the Dockerfile path and a list of the images
 ```
 ### Design
 
-The program is written in Python3 using object oriented design. 
+The program is written in Python3 using object oriented design. It doesn't start without the required url/token and
+has a exception handling built in.
 
 ***The program follows these steps***
 
