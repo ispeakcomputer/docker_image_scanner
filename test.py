@@ -29,12 +29,9 @@ class Dockerchecker:
                     repo_info['sha'] = splittext[1]
                 except IndexError:
                     pass
-                #repo_info['sha'] = splittext[1]
                 repo_info['url'] = splittext[0]
-                # Strip github url and file extension from 0 index
                 parsed_string = splittext[0].replace('https://github.com/','')
                 repo_info['user_repo'] = parsed_string.replace('.git','')
-                # remove dead line
                 if splittext[0] == '':
                     pass
                 else:
@@ -82,10 +79,8 @@ class Dockerchecker:
                             dockerfile_dicts = json.loads(dfp.json)
                           
                             for line_dict in dockerfile_dicts:
-                                if 'FROM' in line_dict:
-                                    #Cleaning string. need only 1st col
+                                if 'FROM' in line_dict: #only need first col
                                     string_list = line_dict['FROM'].split(' ')
-                                    #print("string: " + string_list[0])
                                     file_images['images'].append(string_list[0])
                                   
                             dic['file_w_image'].append(file_images)
@@ -100,7 +95,6 @@ class Dockerchecker:
             data={}
             for url in input:
                 data[url['combined']]={}
-                #print(url)
                 for file in url['file_w_image']:
                     
                     data[url['combined']][file['Dockerfile']] = []
@@ -108,8 +102,6 @@ class Dockerchecker:
             container_data['data']={}
             container_data['data'].update(data)
             return container_data
-                #for file in url['file_w_image']:
-                #    print(inner_data[file['Dockerfile']]) 
         except Exception as e: 
             print(e)
 
@@ -126,12 +118,11 @@ if __name__ == "__main__":
         checker = Dockerchecker()
         data = {}
         
-        text = checker.grab_txt_file(source)
-        dict_of_repos_data = checker.clean_and_package(text)
-        repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data)
-        completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha)
-        structured_dict = checker.structure_json(completed_list)
+        text = checker.grab_txt_file(source) #Grab our endpoint data
+        dict_of_repos_data = checker.clean_and_package(text) #Clean dead lines, start a dict for adding user/repo data and removing dead lines
+        repo_dict_with_url_sha = checker.url_sha_combiner(dict_of_repos_data) #combine url and sha and add to main dict
+        completed_list = checker.parse_docker(mytoken, repo_dict_with_url_sha) #parse our repo for Dockerfiles then extract FROM line and 1ast position
+        structured_dict = checker.structure_json(completed_list) #Structure everything into the required data format
         print(structured_dict)
-        #pprint.pprint(completed_list, indent=6)
 
 
