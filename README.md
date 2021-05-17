@@ -1,6 +1,6 @@
 # Dockerfile Source Scanner
 
-A part of our compliance requirements, we want to make sure that we are building containers with trusted source images.
+We want to make sure that we are building containers with trusted source images.
 
 Dockerfile Source Scanner is a tool that given a list of repositories, it identifies all the Dockerfile files inside each repository,
  extracts the image names from the FROM statement, and returns a json with the aggregated information for all the repositories.
