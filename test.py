@@ -6,7 +6,7 @@ from dockerfile_parse import DockerfileParser
 from pprint import pprint
 import logging
 
-logging.basicConfig(handlers=[logging.FileHandler(filename="deploy.log", 
+logging.basicConfig(handlers=[logging.FileHandler(filename="run.log", 
                                                   encoding='utf-8', mode='w')],
                                                   format="%(asctime)s %(name)s:%(levelname)s:%(message)s", 
                                                   datefmt="%F %A %T", 
@@ -117,8 +117,7 @@ class Dockerchecker:
             container_data['data'].update(data)
             return container_data
         except Exception as e: 
-            print(e)
-
+            logging.error("structure_json:" + e)
 if __name__ == "__main__":
    
     if 'GITHUBTOKEN' and 'REPOSITORY_LIST_URL' not in os.environ:
