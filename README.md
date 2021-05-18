@@ -23,6 +23,18 @@ Dockerfile Source Scanner is a tool that given a list of repositories, it identi
 7. Run ```pods=$(kubectl get pods --selector=job-name=scanner --output=jsonpath='{.items[*].metadata.name}');echo $pod``` for finding your jobs pod. 
 8. Once you get your pod check its output with ```kubectl logs <pod>```
 
+### Running Locally
+1. Jump into Github and grab tokens for read-only access (HERE)[https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token#creating-a-token]
+2. Clone this repo with ```git clone git@github.com:ispeakcomputer/docker_image_scanner.git```
+3. Run ```cd docker_image_scanner.git ```to move into directory
+4. Next run ```python3 -m venv venv ``` to create a virtual environment
+5. Next run ```source venv/bin/activate```
+6. Next Install all our requirements ```python3 -m pip install -r requirements.txt ```
+7. Open **start_here.sh** and enter your keys and secrets from step 1 where you see **GITHUBTOKEN** and **REPOSITORY_LIST_URL**. Save and close.
+8. Make the start script execute with ```chmod +x start_here.sh ```
+9. Run the script with ```./start_here.sh```
+
+
 ### Example Input
 
 The source text url contains a repo url, a space, and the a SHA per line
