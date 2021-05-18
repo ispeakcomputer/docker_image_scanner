@@ -13,6 +13,8 @@ logging.basicConfig(handlers=[logging.FileHandler(filename="run.log",
                                                   level=logging.ERROR)
                                                   
 class Dockerchecker:
+
+    ''' Grad text file with repo url and sha to verify against'''
     def grab_txt_file(self, url):
         try:
             r = requests.get(url)
@@ -21,6 +23,7 @@ class Dockerchecker:
         except Exception: 
             logging.error("Check your source url or internet connection ")
 
+    '''Clean repo / sha text file and repackage with data we need'''
     def clean_and_package(self, mytext ):
         try:
             list_of_repos=[]
@@ -44,7 +47,8 @@ class Dockerchecker:
             return list_of_repos
         except Exception: 
             logging.error("Check your source text file formatting and try again")
-    
+
+    ''' Check the repo is correct by verifying it against the commit SHA'''
     def verify_sha(self, mytoken, list_of_repos):
         g = Github(mytoken)
         try:
@@ -55,7 +59,7 @@ class Dockerchecker:
             return True    
         except GithubException as e:
                 return False
-
+    '''combine the repos and sha on same line =  repo:sha'''
     def url_sha_combiner(self, dict_of_repos):
         try:
                 for url in dict_of_repos:
@@ -67,7 +71,7 @@ class Dockerchecker:
         except Exception: 
             logging.error("Check your text file formatting")
     
-
+    '''Dig through repos and extract Dockerfiles images on FROM lines to add to output'''
     def parse_docker(self, mytoken, list_of_repos):
         try:
             g = Github(mytoken)
@@ -102,7 +106,7 @@ class Dockerchecker:
             return list_of_repos
         except Exception: 
             logging.error("Check your scanned repos Dockerfile formatting")
-    
+    '''Structure data for final output'''
     def structure_json(self,input):
         try:
             container_data={}
