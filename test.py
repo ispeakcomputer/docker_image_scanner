@@ -4,17 +4,22 @@ import os
 import json
 from dockerfile_parse import DockerfileParser
 from pprint import pprint
+import logging
 
-
+logging.basicConfig(handlers=[logging.FileHandler(filename="deploy.log", 
+                                                  encoding='utf-8', mode='w')],
+                                                  format="%(asctime)s %(name)s:%(levelname)s:%(message)s", 
+                                                  datefmt="%F %A %T", 
+                                                  level=logging.ERROR)
+                                                  
 class Dockerchecker:
     def grab_txt_file(self, url):
         try:
             r = requests.get(url)
             mytext = r.text
             return mytext
-        except Exception as e: 
-            print('Check your source url or internet connection')
-            print(e)
+        except Exception: 
+            logging.error("Check your source url or internet connection ")
 
     def clean_and_package(self, mytext ):
         try:
@@ -37,9 +42,8 @@ class Dockerchecker:
                 else:
                     list_of_repos.append(repo_info)
             return list_of_repos
-        except Exception as e: 
-            print('Check your source text file formatting and try again')
-            print(e)
+        except Exception: 
+            logging.error("Check your source text file formatting and try again")
     
     def verify_sha(self, mytoken, list_of_repos):
         g = Github(mytoken)
@@ -60,9 +64,8 @@ class Dockerchecker:
                    
                 return dict_of_repos
         
-        except Exception as e: 
-            print('Check your text file formatting')
-            print(e)
+        except Exception: 
+            logging.error("Check your text file formatting")
     
 
     def parse_docker(self, mytoken, list_of_repos):
@@ -97,9 +100,8 @@ class Dockerchecker:
                                   
                             dic['file_w_image'].append(file_images)
             return list_of_repos
-        except Exception as e: 
-            print('Check your scanned repos Dockerfile formatting')
-            print(e)
+        except Exception: 
+            logging.error("Check your scanned repos Dockerfile formatting")
     
     def structure_json(self,input):
         try:
